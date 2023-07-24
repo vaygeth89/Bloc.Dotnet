@@ -14,7 +14,7 @@
     "version": "1.0.0",
     "restore": {
       "projectUniqueName": "/Users/vaygeth/development/libs/Dotnet/Bloc/Bloc.Models/Bloc.Models.csproj",
-      "projectName": "Bloc.Models",
+      "projectName": "Vaygeth.Bloc",
       "projectPath": "/Users/vaygeth/development/libs/Dotnet/Bloc/Bloc.Models/Bloc.Models.csproj",
       "packagesPath": "/Users/vaygeth/.nuget/packages/",
       "outputPath": "/Users/vaygeth/development/libs/Dotnet/Bloc/Bloc.Models/obj/",
@@ -61,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.304/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/7.0.203/RuntimeIdentifierGraph.json"
       }
     }
   }
