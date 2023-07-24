@@ -8,75 +8,73 @@ This package aims to implement Business Logic Component (BLoC) Design Pattern fo
 To begin using the BLoC, you need to understand the key classes it provides for implementing the BLoC (Business Logic
 Component) pattern in your .NET applications
 
-```c# 
-public abstract class BlocBase<TState> where TState : BlocState
-{
-    protected TState State { get; set; }
-    protected abstract void Emit(TState newState);
-    public abstract event Action<TState>? OnStateChanged;
-}
+#### Creating State Class
+Create the class that will hold the data. In this example we will use Counter example
+```csharp
+
+public record CountState(int Count = 0) : BlocState;
+
 ```
 
-```c#
-public abstract record BlocState();
-```
+#### Creating BLoC/Cubit Class
 
-The BlocBase<TState> class is the core of the BLoC pattern and serves as an abstract base class for creating specific
-BLoC implementations. It defines the following properties and methods:
+```csharp
 
-State: A protected property representing the current state of the BLoC. It can be accessed within the derived classes.
-Emit(TState newState): An abstract method that allows emitting a new state. When called, it updates the current state
-with the provided newState and triggers the OnStateChanged event.
-OnStateChanged: An abstract event that is triggered whenever the state changes. Subscribers can react to state changes
-and update the UI or perform other actions accordingly.
-BlocBuilder<TBloc, TState> Class
-csharp
-Copy code
-
-```c#
-public class BlocBuilder<TBloc, TState> where TBloc : BlocBase<TState> where TState : BlocState
+public class CountCubit : Cubit<CountState>
 {
-public TBloc Bloc { get; }
-public TState State { get; internal set; }
-
-    public BlocBuilder(TBloc bloc)
+    public CountCubit() : base(new CountState())
     {
-        Bloc = bloc;
-        Bloc.OnStateChanged += UpdateState;
     }
 
-    private void UpdateState(TState state)
+    public void Increment()
     {
-        State = state;
+        int currentCount = State.Count;
+        Emit(new CountState(currentCount + 1));
+    }
+
+    public void Decrement()
+    {
+        int currentCount = State.Count;
+        if (currentCount > 0)
+        {
+            Emit(new CountState(currentCount - 1));
+        }
     }
 }
+
 ```
 
-The BlocBuilder<TBloc, TState> class facilitates building UI components that react to changes in the BLoC's state. It
-offers the following features:
+#### Injecting BLocBuilder
 
-Bloc: A property representing the associated BLoC instance that you want to observe.
-State: An internal property that holds the current state of the associated BLoC. It is automatically updated whenever
-the BLoC's state changes, triggering the UI to re-render accordingly.
+#### Program.cs
+```csharp
+    var builder = WebAssemblyHostBuilder.CreateDefault(args);
+    // rest of the code....
+    // ...
 
-### Cubit Class
+    builder.Services.AddScoped(sp => new BlocBuilder<CountCubit, CountState>(new CountCubit()));
+    // rest of the code....
+    // ...
 
-```c#
-public class Cubit<TState> : BlocBase<TState> where TState : BlocState
-{
-    public Cubit(TState state)
+    await builder.Build().RunAsync();
+```
+
+#### Using BLocBuilder
+Inject your builder in your component specifying the the BLoC/Cubit and State
+
+```csharp
+    [Inject]
+    private BlocBuilder<CountCubit, CountState> Builder { get; set; }
+```
+
+#### Handling Events
+You can use the **Builder** to invoke the desired events, in this example **Increment**/**Decrement**
+
+```csharp
+    private void IncrementCount()
     {
-        State = state;
+        Builder.Bloc.Increment();
     }
-
-    protected override void Emit(TState newState)
-    {
-        State = newState;
-        OnStateChanged?.Invoke(State);
-    }
-
-    public override event Action<TState>? OnStateChanged;
-}
 ```
 
 
