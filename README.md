@@ -1,8 +1,7 @@
 ## BLoC
 
 Overview
-This package aims to implement Business Logic Component (BLoC) Design Pattern for Handling State Changes. This package
-is inspired from the Dart package https://pub.dev/packages/bloc
+This package aims to implement Business Logic Component (BLoC) Design Pattern for Mutating and Sharing States
 
 ### Getting Started
 
@@ -65,10 +64,10 @@ the BLoC's state changes, triggering the UI to re-render accordingly.
 ```c#
 public class Cubit<TState> : BlocBase<TState> where TState : BlocState
 {
-public Cubit(TState state)
-{
-State = state;
-}
+    public Cubit(TState state)
+    {
+        State = state;
+    }
 
     protected override void Emit(TState newState)
     {
@@ -80,23 +79,10 @@ State = state;
 }
 ```
 
-The Cubit<TState> class is an implementation of BlocBase<TState> that simplifies state management for simple use cases.
-It provides the following functionality:
 
-Cubit(TState state): A constructor that initializes the Cubit with an initial state.
-Emit(TState newState): An overridden method that updates the current state with the provided newState and triggers the
-OnStateChanged event.
-
-
-### Example
-[Provide an example or step-by-step guide on how to use the classes in your package to implement the BLoC pattern in a specific scenario.]
 
 ### Contribute
 https://github.com/vaygeth89/Bloc.Dotnet
 
-License
-[Include your chosen license here]
-
-Acknowledgments
-[If applicable, acknowledge any inspirations or third-party libraries used in your package]
-
+### Acknowledgments
+This package is inspired from the Dart package https://pub.dev/packages/bloc
