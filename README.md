@@ -44,7 +44,10 @@ public class CountCubit : Cubit<CountState>
 
 ```
 
-#### Injecting BLocBuilder
+
+
+#### Using BLocBuilder
+You can inject your builder in your services or any class 
 
 #### Program.cs
 ```csharp
@@ -59,12 +62,16 @@ public class CountCubit : Cubit<CountState>
     await builder.Build().RunAsync();
 ```
 
-#### Using BLocBuilder
-Inject your builder in your component specifying the the BLoC/Cubit and State
+And using it as follows:
 
 ```csharp
-    [Inject]
-    private BlocBuilder<CountCubit, CountState> Builder { get; set; }
+    public class MyCountService {
+        private BlocBuilder<CountCubit, CountState> Builder { get; set; }
+
+        public MyCountService(BlocBuilder<CountCubit, CountState> builder){
+            Builder = builder;
+        }
+    }
 ```
 
 #### Handling Events
