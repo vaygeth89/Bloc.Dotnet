@@ -10,7 +10,7 @@ public class Cubit<TState> : BlocBase<TState> where TState : BlocState
     protected override void Emit(TState newState)
     {
         State = newState;
-        OnStateChanged.Invoke(State);
+        OnStateChanged?.Invoke(State);
     }
 
     public override event Action<TState>? OnStateChanged;

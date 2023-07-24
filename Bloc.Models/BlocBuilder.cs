@@ -3,7 +3,6 @@ namespace Bloc.Models;
 public class BlocBuilder<TBloc, TState> where TBloc : BlocBase<TState> where TState : BlocState
 {
     public TBloc Bloc { get; }
-    public event Action<TState> Build;
     public TState State { get; internal set; }
 
     public BlocBuilder(TBloc bloc)
@@ -15,6 +14,5 @@ public class BlocBuilder<TBloc, TState> where TBloc : BlocBase<TState> where TSt
     private void UpdateState(TState state)
     {
         State = state;
-        Build.Invoke(State);
     }
 }
