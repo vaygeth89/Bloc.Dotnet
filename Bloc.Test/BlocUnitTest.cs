@@ -20,8 +20,10 @@ public class BlocUnitTest
 
         #endregion
 
-        #region Events
+        Assert.False(listener1.BlocBuilder.State is null);
 
+        #region Events
+        
         listener1.BlocBuilder.Bloc.IncrementCount(valueToAdd);
 
         #endregion
