@@ -15,4 +15,9 @@ public class Cubit<TState> : BlocBase<TState> where TState : BlocState
     }
 
     public override event Action<TState>? OnStateChanged;
+
+    public void Dispose()
+    {
+        //Handle your dispose method
+    }
 }
