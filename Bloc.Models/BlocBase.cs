@@ -1,6 +1,6 @@
 namespace Bloc.Models;
 
-public abstract class BlocBase<TState> where TState : BlocState
+public abstract class BlocBase<TState> where TState : class
 {
     public TState State { get; internal set; }
     protected abstract void Emit(TState newState);

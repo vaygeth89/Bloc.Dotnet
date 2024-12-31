@@ -1,6 +1,6 @@
 ﻿namespace Bloc.Models;
 
-public class Cubit<TState> : BlocBase<TState> where TState : BlocState
+public class Cubit<TState> : BlocBase<TState> where TState : class
 {
     public Cubit(TState state)
     {
