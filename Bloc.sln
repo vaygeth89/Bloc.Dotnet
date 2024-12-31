@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloc.Models", "Bloc.Models\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloc.Test", "Bloc.Test\Bloc.Test.csproj", "{9EC195FE-8463-4EE2-9D06-F188AE350041}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloc.Example", "Bloc.Example\Bloc.Example.csproj", "{F377DC8A-4D13-4DD5-A240-BE678BA083FB}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,5 +46,17 @@ Global
 		{9EC195FE-8463-4EE2-9D06-F188AE350041}.Release|x64.Build.0 = Release|Any CPU
 		{9EC195FE-8463-4EE2-9D06-F188AE350041}.Release|x86.ActiveCfg = Release|Any CPU
 		{9EC195FE-8463-4EE2-9D06-F188AE350041}.Release|x86.Build.0 = Release|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Debug|x64.Build.0 = Debug|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Debug|x86.Build.0 = Debug|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Release|x64.ActiveCfg = Release|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Release|x64.Build.0 = Release|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Release|x86.ActiveCfg = Release|Any CPU
+		{F377DC8A-4D13-4DD5-A240-BE678BA083FB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
