@@ -1,0 +1,41 @@
+﻿name: Publish to NuGet
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    name: Publish Package to NuGet
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Step 2: Setup .NET
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0' # Set to your desired .NET version
+      
+      # Step 3: Install dependencies and build
+      - name: Install dependencies and build
+        run: |
+          dotnet restore
+          dotnet build --configuration Release
+      
+      # Step 4: Pack the project to create a NuGet package
+      - name: Pack project
+        run: dotnet pack ./Bloc.Models/Bloc.Models.csproj --configuration Release -p:PackageVersion=1.1.0
+      
+      # Step 5: Publish to NuGet
+      - name: Publish to NuGet
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push ./Bloc.Models/bin/Release/*.nupkg \
+            --source https://api.nuget.org/v3/index.json \
+            --api-key $NUGET_API_KEY
