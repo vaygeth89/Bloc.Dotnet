@@ -6,4 +6,9 @@ public class Todo
     public string Title { get; set; } = "";
     public long UserId { get; set; }
     public bool Completed { get; set; }
+
+    public override string ToString()
+    {
+        return $"Id:{Id} - Title:{Title} - Completed:{Completed}";
+    }
 }
