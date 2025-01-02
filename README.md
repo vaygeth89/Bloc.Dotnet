@@ -12,7 +12,19 @@ Component) pattern in your .NET applications
 Create the class that will hold the data. In this example we will use Counter example
 ```csharp
 
-public record CountState(int Count = 0) : BlocState;
+public abstract record TodosState(List<Todo> Todos);
+
+public record TodosInitialState() : TodosState(new List<Todo>());
+
+public record TodosLoadedState(List<Todo> Todos) : TodosState(Todos);
+
+public record TodosLoadingState(List<Todo> Todos) : TodosState(Todos);
+
+public record TodosCreatingState(Todo Todo, List<Todo> Todos) : TodosState(Todos);
+
+public record TodosDeletingState(long Id, List<Todo> Todos) : TodosState(Todos);
+
+public record TodosErrorState(string ErrorMessage, List<Todo> Todos) : TodosState(Todos);
 
 ```
 
@@ -20,25 +32,50 @@ public record CountState(int Count = 0) : BlocState;
 
 ```csharp
 
-public class CountCubit : Cubit<CountState>
+public class TodosCubit(ITodoRepository _repository) : Cubit<TodosState>(new TodosInitialState())
 {
-    public CountCubit() : base(new CountState())
+    public async Task Load()
     {
+        Emit(new TodosLoadingState(State.Todos));
+        List<Todo> todos = await _repository.GetTodos();
+        Emit(new TodosLoadedState(todos));
     }
 
-    public void Increment()
+    public async Task Create(Todo todo)
     {
-        int currentCount = State.Count;
-        Emit(new CountState(currentCount + 1));
+        Emit(new TodosCreatingState(todo, State.Todos));
+        //This just a simulation for creating Todo, it will just return the dat with new Id
+        Todo added = await _repository.CreateTodo(todo);
+        List<Todo> todos = State.Todos;
+        todos.Insert(0, added);
+        Emit(new TodosLoadedState(todos));
     }
 
-    public void Decrement()
+    public async Task Delete(long id)
     {
-        int currentCount = State.Count;
-        if (currentCount > 0)
+        Emit(new TodosDeletingState(id, State.Todos));
+        await _repository.DeleteTodo(id);
+        List<Todo> todos = State.Todos;
+        var todoToRemove = todos.SingleOrDefault(t => t.Id == id);
+        if (todoToRemove is not null)
         {
-            Emit(new CountState(currentCount - 1));
+            todos.Remove(todoToRemove);
         }
+
+        Emit(new TodosLoadedState(todos));
+    }
+
+    public async Task GetTodoById(long id)
+    {
+        Emit(new TodosLoadingState(State.Todos));
+        var result = await _repository.GetTodoById(id);
+        if (!result.Any())
+        {
+            Emit(new TodosErrorState("Todo Id not found", State.Todos));
+            return;
+        }
+
+        Emit(new TodosLoadedState(State.Todos));
     }
 }
 

@@ -1,0 +1,91 @@
+﻿@page "/my-todos"
+@using Bloc.Example.Blazor.WebAssembly.Cubit
+@using Bloc.Example.Blazor.WebAssembly.Models
+@using Bloc.Example.Blazor.WebAssembly.States
+@using global::Bloc.Models
+
+<PageTitle>My Todos</PageTitle>
+
+<FluentStack>
+    <FluentTextField Disabled="@(TodoBlocBuilder.State is TodosCreatingState)" Placeholder="Add your todo"
+                     @bind-Value="@Title"></FluentTextField>
+    <FluentButton Disabled="@(TodoBlocBuilder.State is TodosCreatingState)" OnClick="@AddTodo" Color="@("#000000")">
+        Add
+    </FluentButton>
+</FluentStack>
+
+<FluentDataGrid Items="@TodoBlocBuilder.State.Todos.AsQueryable()"
+                Pagination="@pagination"
+                
+                Loading="@(TodoBlocBuilder.State is TodosInitialState || TodoBlocBuilder.State is TodosLoadingState)">
+    <PropertyColumn Property="@(p => p.Id)" Sortable="true"/>
+    <PropertyColumn Property="@(p => p.Title)" Sortable="true"/>
+    <TemplateColumn Title="Completed" Sortable="true">
+        @{
+            var selectedTodo = context;
+            <FluentSwitch aria-label="Completed" Value="@selectedTodo.Completed"
+                          ValueChanged="@((isCompleted) => UpdateTodo(selectedTodo, isCompleted))"/>
+        }
+    </TemplateColumn>
+    <TemplateColumn Title="Actions" Align="@Align.End">
+        @{
+            var selectedTodo = context;
+            <FluentButton aria-label="Delete item" IconEnd="@(new Icons.Regular.Size16.Delete())"
+                          OnClick="@(() => DeleteTodo(selectedTodo))"/>
+        }
+    </TemplateColumn>
+</FluentDataGrid>
+<FluentPaginator State="@pagination" />
+@code{
+
+    private PaginationState pagination = (new () { ItemsPerPage = 10 });
+    protected override void OnInitialized()
+    {
+        //Setup the listener to react to changes
+        TodoBlocBuilder.Bloc.OnStateChanged += ListenForTodosChanges;
+        //Check if it didn't fetch data for first time
+        if (TodoBlocBuilder.State is TodosInitialState)
+        {
+            TodoBlocBuilder.Bloc.Load();
+        }
+    }
+
+    private void ListenForTodosChanges(TodosState todoState)
+    {
+        if (todoState is TodosCreatingState)
+        {
+            //we can reset the content when we submit the new todo
+            Title = "";
+        }
+
+        else if (todoState is TodosLoadedState loadedState)
+        {
+            //Refresh the UI 
+        }
+
+        StateHasChanged();
+    }
+
+
+    [Inject] public required BlocBuilder<TodosCubit, TodosState> TodoBlocBuilder { get; set; }
+
+    private string Title { get; set; } = String.Empty;
+
+
+    private async Task UpdateTodo(Todo todo, bool completed)
+    {
+        todo.Completed = completed;
+        TodoBlocBuilder.Bloc.Update(todo);
+    }
+
+    private void AddTodo()
+    {
+        TodoBlocBuilder.Bloc.Create(new Todo(Title));
+    }
+
+    private void DeleteTodo(Todo selectedTodo)
+    {
+        TodoBlocBuilder.Bloc.Delete(selectedTodo.Id);
+    }
+
+}

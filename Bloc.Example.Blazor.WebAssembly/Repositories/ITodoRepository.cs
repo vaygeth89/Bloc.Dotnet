@@ -1,7 +1,7 @@
-﻿using Bloc.Example.Models;
+﻿using Bloc.Example.Blazor.WebAssembly.Models;
 using Refit;
 
-namespace Bloc.Example.Repositories;
+namespace Bloc.Example.Blazor.WebAssembly.Repositories;
 
 public interface ITodoRepository
 {
@@ -16,4 +16,7 @@ public interface ITodoRepository
 
     [Delete("/{id}")]
     public Task<Todo> DeleteTodo([AliasAs("id")] long id);
+    
+    [Put("/{id}")]
+    public Task<Todo> UpdateTodo([AliasAs("id")] long id, Todo todo);
 }

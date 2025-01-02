@@ -1,13 +1,13 @@
-﻿using Bloc.Example.Models;
-using Bloc.Example.Repositories;
-using Bloc.Example.States;
+﻿using Bloc.Example.Blazor.WebAssembly.Models;
+using Bloc.Example.Blazor.WebAssembly.Repositories;
+using Bloc.Example.Blazor.WebAssembly.States;
 using Bloc.Models;
 
-namespace Bloc.Example.Cubit;
+namespace Bloc.Example.Blazor.WebAssembly.Cubit;
 
 public class TodosCubit(ITodoRepository _repository) : Cubit<TodosState>(new TodosInitialState())
 {
-    public async Task Load()
+    public async void Load()
     {
         Emit(new TodosLoadingState(State.Todos));
         List<Todo> todos = await _repository.GetTodos();
@@ -49,5 +49,20 @@ public class TodosCubit(ITodoRepository _repository) : Cubit<TodosState>(new Tod
         }
 
         Emit(new TodosLoadedState(State.Todos));
+    }
+
+    public async Task Update(Todo todo)
+    {
+        Emit(new TodosUpdatingState(todo, State.Todos));
+        var updatedTodo = await _repository.UpdateTodo(todo.Id, todo);
+        List<Todo> todos = State.Todos;
+        var existingTodo = todos.SingleOrDefault(t => t.Id == updatedTodo.Id);
+        if (existingTodo != null)
+        {
+            existingTodo.Title = updatedTodo.Title;
+            existingTodo.UserId = updatedTodo.UserId;
+            existingTodo.Completed = updatedTodo.Completed;
+        }
+        Emit(new TodosLoadedState(todos));
     }
 }
