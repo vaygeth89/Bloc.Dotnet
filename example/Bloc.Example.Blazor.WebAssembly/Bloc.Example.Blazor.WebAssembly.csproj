@@ -15,6 +15,6 @@
         <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Bloc.Models\Bloc.Models.csproj"/>
+        <ProjectReference Include="..\..\Bloc.Models\Bloc.Models.csproj"/>
     </ItemGroup>
 </Project>

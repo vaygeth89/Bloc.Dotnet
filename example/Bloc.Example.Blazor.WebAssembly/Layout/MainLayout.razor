@@ -1,9 +1,10 @@
 ﻿@inherits LayoutComponentBase
-
+@using Bloc.Example.Blazor.WebAssembly.Cubit
+@using Bloc.Example.Blazor.WebAssembly.States
+@using Bloc.Models
+@inject BlocBuilder<TodosCubit, TodosState> MyTodosBuilder
 <FluentLayout>
-    <FluentHeader>
-        Bloc.Example.Blazor.WebAssembly
-    </FluentHeader>
+    <AppBarHeader/>
     <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
         <NavMenu/>
         <FluentBodyContent Class="body-content">

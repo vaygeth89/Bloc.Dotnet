@@ -12,6 +12,9 @@
     <FluentButton Disabled="@(TodoBlocBuilder.State is TodosCreatingState)" OnClick="@AddTodo" Color="@("#000000")">
         Add
     </FluentButton>
+    <FluentSpacer/>
+    <FluentButton IconEnd="@(new Icons.Regular.Size24.TrayItemRemove())" OnClick="@Refresh">Dispose</FluentButton>
+    <FluentButton IconEnd="@(new Icons.Regular.Size24.Replay())" OnClick="@Refresh">Refresh</FluentButton>
 </FluentStack>
 
 <FluentDataGrid Items="@TodoBlocBuilder.State.Todos.AsQueryable()"
@@ -86,6 +89,18 @@
     private void DeleteTodo(Todo selectedTodo)
     {
         TodoBlocBuilder.Bloc.Delete(selectedTodo.Id);
+    }
+
+    private void Refresh()
+    {
+        //You can decide whether to show/hide showing progress bar/loader
+        //if you wish not emit loading state for better user experience
+        TodoBlocBuilder.Bloc.Load(shouldEmitLoading:true);
+    }
+
+    void Dispose()
+    {
+        TodoBlocBuilder.Bloc.Dispose();
     }
 
 }

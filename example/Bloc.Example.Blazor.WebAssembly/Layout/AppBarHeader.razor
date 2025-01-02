@@ -1,0 +1,39 @@
+﻿@using Bloc.Example.Blazor.WebAssembly.Cubit
+@using Bloc.Example.Blazor.WebAssembly.States
+@using Bloc.Models
+@inject BlocBuilder<TodosCubit, TodosState> MyTodosBuilder
+
+<FluentHeader>
+    <FluentStack Orientation="Orientation.Horizontal">
+        <FluentLabel Color="@(Color.Fill)" Typo="Typography.H4">Blazor BLoC Design Pattern</FluentLabel>
+        <FluentSpacer/>
+        @if (MyTodosBuilder.State is TodosLoadingState)
+        {
+            <FluentLabel Color="@(Color.Fill)" Typo="Typography.H4">Loading Your Todos</FluentLabel>
+        }
+        else
+        {
+            <FluentLabel Color="@(Color.Fill)" Typo="Typography.H4">You have @(MyTodosBuilder.State.Todos.Count) Todos</FluentLabel>
+        }
+    </FluentStack>
+</FluentHeader>
+@code{
+
+    protected override void OnInitialized()
+    {
+        MyTodosBuilder.Bloc.OnStateChanged += ListenToMyTodoChanges;
+        if (MyTodosBuilder.State is TodosInitialState)
+        {
+            MyTodosBuilder.Bloc.Load();
+        }
+    }
+
+    private void ListenToMyTodoChanges(TodosState todosState)
+    {
+        if (todosState is TodosLoadedState)
+        {
+            StateHasChanged();
+        }
+    }
+
+}

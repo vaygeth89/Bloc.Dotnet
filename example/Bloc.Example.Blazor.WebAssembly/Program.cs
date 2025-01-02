@@ -18,6 +18,7 @@ builder.Services.AddFluentUIComponents();
 builder.Services.AddSingleton<ITodoRepository>(sp =>
     RestService.For<ITodoRepository>("https://jsonplaceholder.typicode.com/todos"));
 
+//If you want to share state, add it as scoped
 builder.Services.AddScoped<BlocBuilder<TodosCubit, TodosState>>(sp =>
     new BlocBuilder<TodosCubit, TodosState>(new TodosCubit(sp.GetRequiredService<ITodoRepository>())));
 

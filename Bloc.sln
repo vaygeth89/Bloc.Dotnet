@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloc.Models", "Bloc.Models\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloc.Test", "Bloc.Test\Bloc.Test.csproj", "{9EC195FE-8463-4EE2-9D06-F188AE350041}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloc.Example.Blazor.WebAssembly", "Bloc.Example.Blazor.WebAssembly\Bloc.Example.Blazor.WebAssembly.csproj", "{F932F65A-82DB-493E-9E5A-F3F159328751}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloc.Example.Blazor.WebAssembly", "example\Bloc.Example.Blazor.WebAssembly\Bloc.Example.Blazor.WebAssembly.csproj", "{F932F65A-82DB-493E-9E5A-F3F159328751}"
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution

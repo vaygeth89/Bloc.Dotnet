@@ -7,9 +7,14 @@ namespace Bloc.Example.Blazor.WebAssembly.Cubit;
 
 public class TodosCubit(ITodoRepository _repository) : Cubit<TodosState>(new TodosInitialState())
 {
-    public async void Load()
+    public async void Load(bool shouldEmitLoading = true)
     {
-        Emit(new TodosLoadingState(State.Todos));
+        if (shouldEmitLoading)
+        {
+            Emit(new TodosLoadingState(State.Todos));
+            //To simulate heavy/slow API
+            await Task.Delay(2500);
+        }
         List<Todo> todos = await _repository.GetTodos();
         Emit(new TodosLoadedState(todos));
     }
@@ -64,5 +69,10 @@ public class TodosCubit(ITodoRepository _repository) : Cubit<TodosState>(new Tod
             existingTodo.Completed = updatedTodo.Completed;
         }
         Emit(new TodosLoadedState(todos));
+    }
+
+    public override void Dispose()
+    {
+        Emit(new TodosInitialState());
     }
 }
