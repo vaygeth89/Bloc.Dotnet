@@ -1,0 +1,26 @@
+@using Bloc.Example.Blazor.WebAssembly.Models
+
+
+<FluentCard Style="@Style">
+    <li>
+        <h4>@Conversation.Message</h4>
+    </li>
+    <li>
+        <h5>@Conversation.CreatedAt</h5>
+    </li>
+</FluentCard>
+
+
+@code {
+
+    [CascadingParameter(Name = "ChatConversation")]
+    public required ChatConversation Conversation { get; set; }
+
+    private string Style { get; set; } = $"text-align;";
+
+    protected override void OnInitialized()
+    {
+        Style = $"{Style} {(Conversation.IsSystem ? "left" : "right")}";
+    }
+
+}

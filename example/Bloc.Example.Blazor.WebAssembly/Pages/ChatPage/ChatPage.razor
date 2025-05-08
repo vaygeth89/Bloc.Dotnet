@@ -1,0 +1,52 @@
+@page "/chat"
+@using Bloc.Example.Blazor.WebAssembly.Cubit
+@using Bloc.Example.Blazor.WebAssembly.Repositories
+@using Bloc.Example.Blazor.WebAssembly.States
+@using Bloc.Models
+
+<CascadingValue Value="_chatConversationBuilder" Name="ChatConversationBuilder">
+    <ul>
+        @foreach (var conversationMessage in _chatConversationBuilder.State.Conversations)
+        {
+            <li>
+                <CascadingValue Value="@conversationMessage" Name="ChatConversation">
+                    <ConversationMessageItem/>
+                </CascadingValue>
+            </li>
+            @if (_chatConversationBuilder.State is ChatConversationSendingState)
+            {
+                <FluentProgress />
+            }
+        }
+    </ul>
+
+    <FluentTextField @bind-Value="@CurrentMessage"
+                     Disabled="@(_chatConversationBuilder.State is ChatConversationSendingState)"></FluentTextField>
+    <FluentButton OnClick="SendMessage" Disabled="@(_chatConversationBuilder.State is ChatConversationSendingState)">Send</FluentButton>
+</CascadingValue>
+
+@code {
+
+    readonly BlocBuilder<ChatConversationCubit, ChatConversationState> _chatConversationBuilder =
+        new(new(new ChatConversationRepository()));
+
+    private string CurrentMessage { get; set; } = "";
+
+    protected override void OnInitialized()
+    {
+        _chatConversationBuilder.Bloc.OnStateChanged += ListenToChatConversation;
+    }
+
+    private void ListenToChatConversation(ChatConversationState chatConversationState)
+    {
+        StateHasChanged();
+    }
+
+    private async void SendMessage()
+    {
+        await _chatConversationBuilder.Bloc.SendMessage(CurrentMessage);
+        CurrentMessage = "";
+        StateHasChanged();
+    }
+
+}
