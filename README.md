@@ -8,7 +8,14 @@ This package aims to implement Business Logic Component (BLoC) Design Pattern fo
 To begin using the BLoC, you need to understand the key classes it provides for implementing the BLoC (Business Logic
 Component) pattern in your .NET applications
 
-#### Creating State Class
+### Examples
+
+Blazor
+* [Simple count application](example/Bloc.Example.Blazor.WebAssembly/Pages/Counter.razor)
+* [API & Repositories](example/Bloc.Example.Blazor.WebAssembly/Pages/MyTodos.razor)
+* [Chat Example](example/Bloc.Example.Blazor.WebAssembly/Pages/ChatPage/ChatPage.razor)
+
+#### Usage
 Create the class that will hold the data. In this example we will use Counter example
 ```csharp
 
