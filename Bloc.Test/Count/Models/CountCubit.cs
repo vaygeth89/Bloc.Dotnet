@@ -1,6 +1,6 @@
 using Bloc.Models;
 
-namespace Bloc.Test.Models;
+namespace Bloc.Test.Count.Models;
 
 public class CountCubit : Cubit<CountState>
 {

@@ -1,13 +1,7 @@
 ﻿namespace Bloc.Models;
 
-public class Cubit<TState> : BlocBase<TState> where TState : class
+public class Cubit<TState>(TState state) : BlocBase<TState>(state) where TState : class
 {
-    public Cubit(TState state)
-    {
-        State = state;
-        OnStateChanged?.Invoke(State);
-    }
-
     protected override void Emit(TState newState)
     {
         State = newState;
