@@ -29,7 +29,7 @@ jobs:
       
       # Step 4: Pack the project to create a NuGet package
       - name: Pack project
-        run: dotnet pack ./Bloc.Models/Bloc.Models.csproj --configuration Release -p:PackageVersion=1.1.0
+        run: dotnet pack ./Bloc.Models/Bloc.Models.csproj --configuration Release -p:PackageVersion=1.2.0
       
       # Step 5: Publish to NuGet
       - name: Publish to NuGet
