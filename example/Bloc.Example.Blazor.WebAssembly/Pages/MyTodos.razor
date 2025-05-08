@@ -18,8 +18,8 @@
 </FluentStack>
 
 <FluentDataGrid Items="@TodoBlocBuilder.State.Todos.AsQueryable()"
-                Pagination="@pagination"
-                
+                Pagination="@_pagination"
+
                 Loading="@(TodoBlocBuilder.State is TodosInitialState || TodoBlocBuilder.State is TodosLoadingState)">
     <PropertyColumn Property="@(p => p.Id)" Sortable="true"/>
     <PropertyColumn Property="@(p => p.Title)" Sortable="true"/>
@@ -38,10 +38,12 @@
         }
     </TemplateColumn>
 </FluentDataGrid>
-<FluentPaginator State="@pagination" />
+<FluentPaginator State="@_pagination"/>
+
 @code{
 
-    private PaginationState pagination = (new () { ItemsPerPage = 10 });
+    private PaginationState _pagination = (new() { ItemsPerPage = 10 });
+
     protected override void OnInitialized()
     {
         //Setup the listener to react to changes
@@ -78,24 +80,24 @@
     private async Task UpdateTodo(Todo todo, bool completed)
     {
         todo.Completed = completed;
-        TodoBlocBuilder.Bloc.Update(todo);
+        await TodoBlocBuilder.Bloc.Update(todo);
     }
 
-    private void AddTodo()
+    private async Task AddTodo()
     {
-        TodoBlocBuilder.Bloc.Create(new Todo(Title));
+        await TodoBlocBuilder.Bloc.Create(new Todo(Title));
     }
 
-    private void DeleteTodo(Todo selectedTodo)
+    private async Task DeleteTodo(Todo selectedTodo)
     {
-        TodoBlocBuilder.Bloc.Delete(selectedTodo.Id);
+        await TodoBlocBuilder.Bloc.Delete(selectedTodo.Id);
     }
 
     private void Refresh()
     {
         //You can decide whether to show/hide showing progress bar/loader
         //if you wish not emit loading state for better user experience
-        TodoBlocBuilder.Bloc.Load(shouldEmitLoading:true);
+        TodoBlocBuilder.Bloc.Load(shouldEmitLoading: true);
     }
 
     void Dispose()

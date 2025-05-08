@@ -2,12 +2,8 @@ using Bloc.Models;
 
 namespace Bloc.Test.Count.Models;
 
-public class CountCubit : Cubit<CountState>
+public class CountCubit() : Cubit<CountState>(new CountState(0))
 {
-    public CountCubit() : base(new CountState(0))
-    {
-    }
-
     public void IncrementCount(int incrementBy = 1)
     {
         var currentCount = State.Count;
