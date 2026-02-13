@@ -16,7 +16,7 @@ Blazor
 * [Chat Example](example/Bloc.Example.Blazor.WebAssembly/Pages/ChatPage/ChatPage.razor)
 
 #### Usage
-Create the class that will hold the data. In this example we will use Counter example
+Create the class that will hold the data. In this example we will use a Todo CRUD/Repository Example
 ```csharp
 
 public abstract record TodosState(List<Todo> Todos);
@@ -36,7 +36,7 @@ public record TodosErrorState(string ErrorMessage, List<Todo> Todos) : TodosStat
 ```
 
 #### Creating BLoC/Cubit Class
-
+Creating the Cubit class that will have events, business logic and interaction with APIs
 ```csharp
 
 public class TodosCubit(ITodoRepository _repository) : Cubit<TodosState>(new TodosInitialState())
